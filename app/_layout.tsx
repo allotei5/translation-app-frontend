@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import React from 'react';
 import Toast from 'react-native-toast-message';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 import "../global.css"
@@ -24,6 +25,7 @@ export default function RootLayout() {
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
+  const queryClient = new QueryClient()
 
   useEffect(() => {
     if (error) throw error;
@@ -34,7 +36,8 @@ export default function RootLayout() {
   if (!fontsLoaded && !error) return null;
 
   return (
-      <GlobalProvider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -43,5 +46,6 @@ export default function RootLayout() {
         </Stack>
         <Toast />
       </GlobalProvider>
+      </QueryClientProvider>
   );
 }

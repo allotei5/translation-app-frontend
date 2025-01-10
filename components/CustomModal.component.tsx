@@ -19,7 +19,7 @@ const CustomModal = ({
   closeModal,
 }: {
   isVisible: boolean;
-  closeModal: (value: boolean) => void;
+  closeModal: () => void;
 }) => {
   const [firstLanguage, setFirstLanguage] = useState<null | string>(null);
   const [secondLanguage, setSecondLanguage] = useState<null | string>(null);
@@ -85,8 +85,12 @@ const CustomModal = ({
     if (success) {
       setCustomAlert({
         color: 'green',
-        message: 'Trascript created'
+        message: 'Transcript created'
       })
+      setTimeout(() => {
+        setCustomAlert(null);
+        closeModal()
+      }, 2000);
     }
   }, [success, data])
 
@@ -122,7 +126,7 @@ const CustomModal = ({
                   setFirstLanguage(null)
                   setSecondLanguage(null)
                   setCustomAlert(null)
-                  closeModal(false)
+                  closeModal()
                 }}
                 label="Cancel"
                 isPrimary={false}

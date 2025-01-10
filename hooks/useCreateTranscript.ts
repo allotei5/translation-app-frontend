@@ -1,4 +1,5 @@
 import api from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface TranscriptData {
@@ -11,6 +12,8 @@ const useCreateTranscript = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [data, setData] = useState<any>(null);
+  const queryClient = useQueryClient()
+
 
   const createTranscript = async (transcriptData: TranscriptData): Promise<void> => {
     try {
@@ -18,7 +21,10 @@ const useCreateTranscript = () => {
         const response = await api.post("/transcript", JSON.stringify(transcriptData))
         setData(response.data);
         setSuccess(true)
-        // console.log(response)
+        
+        queryClient.setQueryData(['transcripts'], (oldData: TranscriptData[]) => {
+            return oldData ? [ response.data, ...oldData] : [response.data]
+        })
     } catch (error: any) {
         // console.log(error)
         if (error?.response.status === 422) {

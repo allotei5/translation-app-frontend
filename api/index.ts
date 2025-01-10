@@ -15,7 +15,7 @@ api.interceptors.request.use(async (config) => {
     const credentials = await retrieveCredential("token");
 
     if (credentials) {
-      // attach the password as a cookie if it exists
+      // attach the token as a cookie if it exists
       if (config.headers) {
         config.headers["Cookie"] = `translation-app-backend=${credentials}`;
       }
