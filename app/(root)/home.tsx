@@ -14,10 +14,11 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import CustomModal from "@/components/CustomModal.component";
 import useGetTranscripts, { Transcript } from "@/hooks/useGetTranscripts";
 import { FlatList } from "react-native";
+import { router } from "expo-router";
 
 export const TranscriptCard = ({ transcript }: { transcript: Transcript }) => {
   return (
-    <TouchableOpacity className="bg-primary rounded-lg px-4 py-8 my-1">
+    <TouchableOpacity className="bg-primary rounded-lg px-4 py-8 my-1" onPress={() => router.push(`/translate/${transcript._id}`)}>
       <Text className="text-white font-psemibold text-base ">
         Translation -{" "}
         {new Date(transcript.createdAt).toLocaleString("en-US", {
